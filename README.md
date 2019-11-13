@@ -1,4 +1,4 @@
-# sukabliataskiu.lt
+# sukabletaskiu.lt
 
 ## Project setup
 ```
