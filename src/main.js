@@ -5,12 +5,11 @@ import VueAnalytics from 'vue-analytics'
 
 Vue.config.productionTip = false
 
+Vue.use(VueAnalytics, {
+  id: 'UA-152365821-1',
+})
+
 new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
-
-Vue.use(VueAnalytics, {
-  id: 'UA-152365821-1',
-  checkDuplicatedScript: true
-})
