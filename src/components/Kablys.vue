@@ -5,14 +5,12 @@
         <v-textarea
           solo
           name="input-7-4"
-          placeholder="Tekstas..."
+          placeholder='"Keičiam" `kabutes`, brūkšnelius (-) į Lietuviškus'
           v-model="input"
         ></v-textarea>
       </v-col>
     </v-row>
-
   <v-btn class="mr-4" @click="submit">keičiam!</v-btn>
-
     <v-row>
       <v-col cols="12" md="60">
         <v-textarea
@@ -20,6 +18,7 @@
           name="input-7-4"
           readonly=true
           v-model="result"
+          placeholder="„Keičiam“ „kabutes“, brūkšnelius (–) į Lietuviškus"
           label="Rezultatas"
         ></v-textarea>
       </v-col>
