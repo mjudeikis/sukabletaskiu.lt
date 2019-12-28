@@ -36,33 +36,28 @@ export default {
   methods: {
      submit () {
       var temp = this.input.split(" ");
-      var regex = /(?=\S*['-])([a-zA-Z'-]+)|(?=\S*["-])([a-zA-Z"-]+)|(?=\S*[`-])([a-zA-Z`-]+)/g;
+      var regex = /(?=\S*['-])([a-zA-Z'-]+)|(?=\S*["-])([a-zA-Z"-]+)|(?=\S*[`-])([a-zA-Z`-]+)|(\S*[“-])([a-zA-Z”-]+)/g;
+      var commas = ["\"","'","`","“"];
 
        var i;
        for (i = 0; i < temp.length; i++) {
          // first char is kablys
          if (temp[i].match(regex)) {
 
-            // first char is "'`
-            if ((temp[i].charAt(0) == '"') || (temp[i].charAt(0) == '`') || (temp[i].charAt(0) == '\'') ){
-                temp[i] = temp[i].replace("\"","„");
-                temp[i] = temp[i].replace("`","„");
-                temp[i] = temp[i].replace("'","„");
+            // first char is comma
+            if (commas.includes(temp[i].charAt(0))){
+                temp[i] = temp[i].replace(temp[i].charAt(0),"„");
             }
 
-              // last char is :;,.
-              if ((temp[i].substr(-1) == ',') || (temp[i].substr(-1) == '.')|| (temp[i].substr(-1) == ':') || (temp[i].substr(-1) == ';')){
-                temp[i] = temp[i].replace("\"","“")
-                temp[i] = temp[i].replace("`","“")
-                  temp[i] = temp[i].replace("'","“");
-              }
-            
+            // last char is :;,.
+            if (commas.includes(temp[i].substr(-1))){
+              temp[i] = temp[i].replace(temp[i].substr(-1),"“");
+            }
 
-            // last char is "'`
-            if ((temp[i].substr(-1) == '"') || (temp[i].substr(-1) == '`')|| (temp[i].substr(-1) == '\'')){
-                temp[i] = temp[i].replace("\"","“");
-                temp[i] = temp[i].replace("`","“");
-                temp[i] = temp[i].replace("'","“");
+
+            // last char is "'`“”
+            if (commas.includes(temp[i].substr(-1))){
+                temp[i] = temp[i].replace(temp[i].charAt(-1),"“");
             }
          }
 
