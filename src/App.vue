@@ -14,7 +14,7 @@
 
       <v-spacer></v-spacer>
 
-      sukabletaskiu.lt
+      sukablEtaskiu.lt
     </v-app-bar>
 
     <v-content>
