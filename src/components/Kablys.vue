@@ -10,13 +10,15 @@
         ></v-textarea>
       </v-col>
     </v-row>
+
+    <div v-show="this.error" style="color:red; word-wrap:break-word;">{{ this.error }}</div>
+
   <v-btn class="mr-4" @click="submit">keičiam!</v-btn>
     <v-row>
       <v-col cols="12" md="60">
         <v-textarea
           solo
           name="input-7-4"
-          readonly=true
           v-model="result"
           placeholder="„Keičiam“ „kabutes“, brūkšnelius (–) į Lietuviškus"
           label="Rezultatas"
@@ -27,48 +29,98 @@
 </template>
 
 <script>
+export const commas = ["\"","'","`","“","„",'"']
+export const specialCaseChars = [":",";",",","."]
+
 export default {
  data: () => ({
           text: '',
-          result: ''
+          result: '',
+          input: '',
+          error: '',
   }),
   name: 'Kablys',
   methods: {
      submit () {
-      var temp = this.input.split(" ");
-      var regex = /(?=\S*['-])([a-zA-Z'-]+)|(?=\S*["-])([a-zA-Z"-]+)|(?=\S*[`-])([a-zA-Z`-]+)|(\S*[“-])([a-zA-Z”-]+)/g;
-      var commas = ["\"","'","`","“"];
 
-       var i;
-       for (i = 0; i < temp.length; i++) {
-         // first char is kablys
-         if (temp[i].match(regex)) {
+      // replace /n and split
+      var words = this.input.replace(/\r\n|\n/, ' ').split(" ");
+      //var regex = /(?=\S*['-])([a-zA-Z'-]+)|(?=\S*["-])([a-zA-Z"-]+)|(?=\S*[`-])([a-zA-Z`-]+)|(\S*[“-])([a-zA-Z”-]+)|(\S*[„-])([a-zA-Z”-]+)/g;
 
-            // first char is comma
-            if (commas.includes(temp[i].charAt(0))){
-                temp[i] = temp[i].replace(temp[i].charAt(0),"„");
-            }
+       this.oddNumber(words)
+       words = this.commas(words)
+       this.result = words.join(" ")
 
-            // last char is :;,.
-            if (commas.includes(temp[i].substr(-1))){
-              temp[i] = temp[i].replace(temp[i].substr(-1),"“");
-            }
-
-
-            // last char is "'`“”
-            if (commas.includes(temp[i].substr(-1))){
-                temp[i] = temp[i].replace(temp[i].charAt(-1),"“");
-            }
-         }
-
-        // deal with -
-        if (temp[i].match(/[\\-]/)){
-          temp[i] = temp[i].replace("-","–");
-        }
-
-       }
-       this.result = temp.join(" ")
      },
+     bruksnys(word) {
+         if (word.match(/[\\-]/)){
+          word = word.replace("-","–");
+        }
+        return word
+     },
+     commas(words) {
+        var i;
+
+        for (i = 0; i < words.length; i++) {
+            // deal with -
+            words[i] = this.bruksnys(words[i])
+            // first character is comma
+            if (commas.includes(words[i].charAt(0))){
+                 words[i] = words[i].replace(words[i].charAt(0),"„");
+            }
+            // last char is comma
+            if (commas.includes(words[i].substr(-1))){
+                words[i] = words[i].replace(words[i].substr(-1),"“");
+            }
+            // if last char is special case char, check one more
+            if (specialCaseChars.includes(words[i].substr(-1))){
+              if (words[i].length >= 2) {
+                  var slc = words[i].length - 2;
+                  if (commas.includes(words[i].charAt(slc))){
+                     words[i] = words[i].replace(words[i].charAt(slc),"“");
+                  }
+              }
+            }
+        }
+        return words
+     },
+     oddNumber(words) {
+        console.log("odd")
+        var i;
+        var count = 0;
+        for (i = 0; i < words.length; i++) {
+           console.log(words.length)
+            // first character is comma
+            if (commas.includes(words[i].charAt(0))){
+              count = count + 1;
+            }
+            // last char is comma
+            if (commas.includes(words[i].slice(-1))){
+               count = count + 1;
+            }
+            // if last char is special case char, check one more
+            if (specialCaseChars.includes(words[i].slice(-1))){
+              if (words[i].length >= 2)         // if word is at least two characters long
+              {
+                  var slc = words[i].length - 2;
+                  if (commas.includes(words[i].charAt(slc))){
+                     count = count + 1;
+                  }
+              }
+            }
+        }
+        console.log(count)
+        if (this.isOdd(count) || count === 1) {
+
+           this.error = "nelyginis skaičius kabučių... Pasimečiau... Gali būti klaidelių."
+        } else {
+           this.error = ""
+        }
+     },
+     isOdd(x) { return x & 1; },
+
    },
 }
+
+
 </script>
