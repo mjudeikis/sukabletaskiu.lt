@@ -87,16 +87,16 @@ export default {
      oddNumber(words) {
         console.log("odd")
         var i;
-        var count = 0;
+        var countOpen = 0;
+        var countClose = 0
         for (i = 0; i < words.length; i++) {
-           console.log(words.length)
             // first character is comma
             if (commas.includes(words[i].charAt(0))){
-              count = count + 1;
+              countOpen = countOpen + 1;
             }
             // last char is comma
             if (commas.includes(words[i].slice(-1))){
-               count = count + 1;
+               countClose = countClose + 1;
             }
             // if last char is special case char, check one more
             if (specialCaseChars.includes(words[i].slice(-1))){
@@ -104,18 +104,19 @@ export default {
               {
                   var slc = words[i].length - 2;
                   if (commas.includes(words[i].charAt(slc))){
-                     count = count + 1;
+                     countClose = countClose + 1;
                   }
               }
             }
         }
-        console.log(count)
-        if (this.isOdd(count) || count === 1) {
-
-           this.error = "nelyginis skaičius kabučių... Pasimečiau... Gali būti klaidelių."
+        console.log(countOpen)
+        console.log(countClose)
+        if (this.isOdd(countOpen+countClose)){
+           this.error = "nelyginis kabučių skaičius... Pasimečiau... Radau "+countOpen+" atidarančias ir "+countClose+" uždarančias kabutes. Gali būti klaidelių."
         } else {
            this.error = ""
         }
+
      },
      isOdd(x) { return x & 1; },
 
