@@ -18,23 +18,7 @@
     </v-app-bar>
 
     <v-content>
-      <Kablys/>
+      <router-view/>
     </v-content>
   </v-app>
 </template>
-
-<script>
-import Kablys from './components/Kablys';
-
-export default {
-  name: 'App',
-
-  components: {
-    Kablys,
-  },
-
-  data: () => ({
-    fontSize: 2,
-  }),
-};
-</script>
