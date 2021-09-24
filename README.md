@@ -1,5 +1,6 @@
 # sukabletaskiu.lt
 
+[![Build Status](https://drone-mj.webrelay.io/api/badges/mjudeikis/sukabletaskiu.lt/status.svg)](https://drone-mj.webrelay.io/mjudeikis/sukabletaskiu.lt)
 ## Project setup
 ```
 npm install

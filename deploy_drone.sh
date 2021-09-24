@@ -17,6 +17,4 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f https://github.com/mjudeikis/sukabletaskiu.lt.git/ master:gh-pages
-
 cd -

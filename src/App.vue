@@ -35,7 +35,6 @@ export const specialCaseChars = [":",";",",","."]
 
 export default {
  data: () => ({
-
           fontSize: 2,
   }),
   methods: {

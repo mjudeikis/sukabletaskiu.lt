@@ -1,0 +1,19 @@
+kind: pipeline
+name: default
+
+steps:
+- name: build-ui
+  # Ref: https://hub.docker.com/r/peaceiris/hugo/tags?page=1&ordering=last_updated
+  image: quay.io/synpse/peaceiris-hugo:v0.87.0-full
+  commands:
+    - npm install
+    - ./deploy_drone.sh
+- name: push commit
+  image: appleboy/drone-git-push
+  settings:
+    remote:
+         from_secret: GH_REPO
+    branch: gh-pages
+    local_ref: master
+    path: ./dist
+    force: true
