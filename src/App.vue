@@ -8,13 +8,20 @@
     <button v-on:click="fontSize += 0.25">A+</button>
     <button v-on:click="fontSize < 0.5? fontSize = 0.25: fontSize -= 0.25">A-</button>
     <v-spacer></v-spacer>
+    
     <div v-bind:style="{ fontSize: fontSize + 'rem' }">
-         „“
+         „
     </div>
-
-      <v-spacer></v-spacer>
-
-      sukablEtaskiu.lt
+    <span> </span>
+    sukablEtaskiu.lt
+    <div v-bind:style="{ fontSize: fontSize + 'rem' }">
+         “
+    </div>
+    <v-spacer></v-spacer>
+    <a href="https://github.com/mjudeikis/sukabletaskiu.lt/issues">
+      <button>Kažkas neveikia? Papasakok daugiau...</button>
+    </a>
+    
     </v-app-bar>
 
     <v-content>
@@ -22,3 +29,17 @@
     </v-content>
   </v-app>
 </template>
+
+
+<script>
+export const commas = ["\"","'","`","“","„",'"',"‘","’","”","‟"]
+export const specialCaseChars = [":",";",",","."]
+
+export default {
+ data: () => ({
+
+          fontSize: 2,
+  }),
+  name: 'App',
+}
+</script>

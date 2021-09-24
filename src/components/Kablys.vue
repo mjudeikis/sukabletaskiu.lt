@@ -29,7 +29,7 @@
 </template>
 
 <script>
-export const commas = ["\"","'","`","“","„",'"']
+export const commas = ["\"","'","`","“","„",'"',"‘","’","”","‟"]
 export const specialCaseChars = [":",";",",","."]
 
 export default {
@@ -38,18 +38,20 @@ export default {
           result: '',
           input: '',
           error: '',
+          fontSize: 2,
   }),
   name: 'Kablys',
   methods: {
      submit () {
 
       // replace /n and split
-      var words = this.input.replace(/\r\n|\n/, ' ').split(" ");
+      var words = this.input.split(" ");
       //var regex = /(?=\S*['-])([a-zA-Z'-]+)|(?=\S*["-])([a-zA-Z"-]+)|(?=\S*[`-])([a-zA-Z`-]+)|(\S*[“-])([a-zA-Z”-]+)|(\S*[„-])([a-zA-Z”-]+)/g;
+      console.log(words)
+      words = this.commas(words)
+      this.result = words.join(" ")
 
-       this.oddNumber(words)
-       words = this.commas(words)
-       this.result = words.join(" ")
+      this.oddNumber(words)
 
      },
      bruksnys(word) {
@@ -84,35 +86,31 @@ export default {
         }
         return words
      },
+     birdIsAWord(word) {
+      var first = 0
+      if (word.charAt(first) === "\n"){
+        console.log(word.charAt(first))
+        first +1
+        return this.birdIsAWord(word.substring(first))
+      } else {
+        return word
+      }
+     },
      oddNumber(words) {
-        console.log("odd")
         var i;
-        var countOpen = 0;
-        var countClose = 0
+        var count = 0;
+  
         for (i = 0; i < words.length; i++) {
             // first character is comma
-            if (commas.includes(words[i].charAt(0))){
-              countOpen = countOpen + 1;
-            }
-            // last char is comma
-            if (commas.includes(words[i].slice(-1))){
-               countClose = countClose + 1;
-            }
-            // if last char is special case char, check one more
-            if (specialCaseChars.includes(words[i].slice(-1))){
-              if (words[i].length >= 2)         // if word is at least two characters long
-              {
-                  var slc = words[i].length - 2;
-                  if (commas.includes(words[i].charAt(slc))){
-                     countClose = countClose + 1;
-                  }
+            for (var j = 0; j < commas.length; j++) {
+              if (words[i].indexOf(commas[j]) != -1){
+                count++
               }
             }
         }
-        console.log(countOpen)
-        console.log(countClose)
-        if (this.isOdd(countOpen+countClose)){
-           this.error = "nelyginis kabučių skaičius... Pasimečiau... Radau "+countOpen+" atidarančias ir "+countClose+" uždarančias kabutes. Gali būti klaidelių."
+        console.log(count)
+        if (this.isOdd(count)){
+           this.error = "nelyginis kabučių skaičius... Pasimečiau... Radau "+count+"-ias kabes! Kas yra nelyginis skaičius. Gali būti klaidelių."
         } else {
            this.error = ""
         }
