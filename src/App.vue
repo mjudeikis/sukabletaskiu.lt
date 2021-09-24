@@ -18,9 +18,7 @@
          “
     </div>
     <v-spacer></v-spacer>
-    <a href="https://github.com/mjudeikis/sukabletaskiu.lt/issues">
-      <button>Kažkas neveikia? Papasakok daugiau...</button>
-    </a>
+      <button  v-on:click="gh">Kažkas neveikia? Papasakok daugiau...</button>
     
     </v-app-bar>
 
@@ -40,6 +38,11 @@ export default {
 
           fontSize: 2,
   }),
+  methods: {
+    gh(){
+      window.open("https://github.com/mjudeikis/sukabletaskiu.lt/issues")
+    },
+  },
   name: 'App',
 }
 </script>
